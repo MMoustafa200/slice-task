@@ -15,8 +15,11 @@ export class AuthorRepository {
         return await this.model.findMany();
     }
 
-    async readOne(filter: Partial<Author>) {
-        return await this.model.findFirst({ where: filter });
+    async readOne(
+        filter: Partial<Author>,
+        select?: Partial<Record<keyof Author, boolean>>,
+    ) {
+        return await this.model.findFirst({ where: filter, select });
     }
 
     async create(data: Pick<Author, 'name'>) {

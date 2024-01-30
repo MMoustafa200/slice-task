@@ -15,8 +15,11 @@ export class TokenRepository {
         return await this.model.findMany();
     }
 
-    async readOne(filter: Partial<Token>) {
-        return await this.model.findFirst({ where: filter });
+    async readOne(
+        filter: Partial<Token>,
+        select?: Partial<Record<keyof Token, boolean>>,
+    ) {
+        return await this.model.findFirst({ where: filter, select });
     }
 
     async create(data: Pick<Token, 'userId' | 'token'>) {

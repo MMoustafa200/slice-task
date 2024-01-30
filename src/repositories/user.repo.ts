@@ -15,8 +15,14 @@ export class UserRepository {
         return await this.model.findMany();
     }
 
-    async readOne(filter: Partial<User>) {
-        return await this.model.findFirst({ where: filter });
+    async readOne(
+        filter: Partial<User>,
+        select?: Partial<Record<keyof User, boolean>>,
+    ) {
+        return await this.model.findFirst({
+            where: filter,
+            select,
+        });
     }
 
     async create(data: Pick<User, 'email' | 'password' | 'fullname'>) {

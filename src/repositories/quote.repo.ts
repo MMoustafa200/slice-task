@@ -15,8 +15,11 @@ export class QuoteRepository {
         return await this.model.findMany();
     }
 
-    async readOne(filter: Partial<Quote>) {
-        return await this.model.findFirst({ where: filter });
+    async readOne(
+        filter: Partial<Quote>,
+        select?: Partial<Record<keyof Quote, boolean>>,
+    ) {
+        return await this.model.findFirst({ where: filter, select });
     }
 
     async create(data: Pick<Quote, 'authorId' | 'quote'>) {
