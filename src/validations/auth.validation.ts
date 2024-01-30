@@ -13,15 +13,7 @@ const loginSchema = Joi.object({
     password: Joi.string().min(8).required(),
 });
 
-const logoutSchema = Joi.object({
-    token: Joi.string()
-        .trim()
-        .regex(/^[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*$/)
-        .required(),
-});
-
 export const authValidation = {
     register: validateSchema(registerSchema, ReqField.Body),
     login: validateSchema(loginSchema, ReqField.Body),
-    logout: validateSchema(logoutSchema, ReqField.Query),
 };
