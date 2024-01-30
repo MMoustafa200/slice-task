@@ -15,15 +15,15 @@ export class TokenRepository {
         return await this.model.findMany();
     }
 
-    async readOne(id: number) {
-        return await this.model.findUnique({ where: { id } });
+    async readOne(filter: Partial<Token>) {
+        return await this.model.findFirst({ where: filter });
     }
 
-    async create(data: Token) {
+    async create(data: Pick<Token, 'userId' | 'token'>) {
         return await this.model.create({ data });
     }
 
-    async update(id: number, data: Token) {
+    async update(id: number, data: Partial<Token>) {
         return await this.model.update({ where: { id }, data });
     }
 

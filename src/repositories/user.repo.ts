@@ -15,15 +15,15 @@ export class UserRepository {
         return await this.model.findMany();
     }
 
-    async readOne(id: number) {
-        return await this.model.findUnique({ where: { id } });
+    async readOne(filter: Partial<User>) {
+        return await this.model.findFirst({ where: filter });
     }
 
-    async create(data: User) {
+    async create(data: Pick<User, 'email' | 'password' | 'fullname'>) {
         return await this.model.create({ data });
     }
 
-    async update(id: number, data: User) {
+    async update(id: number, data: Partial<User>) {
         return await this.model.update({ where: { id }, data });
     }
 

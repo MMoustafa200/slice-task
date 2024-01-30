@@ -15,15 +15,15 @@ export class QuoteRepository {
         return await this.model.findMany();
     }
 
-    async readOne(id: number) {
-        return await this.model.findUnique({ where: { id } });
+    async readOne(filter: Partial<Quote>) {
+        return await this.model.findFirst({ where: filter });
     }
 
-    async create(data: Quote) {
+    async create(data: Pick<Quote, 'authorId' | 'quote'>) {
         return await this.model.create({ data });
     }
 
-    async update(id: number, data: Quote) {
+    async update(id: number, data: Partial<Quote>) {
         return await this.model.update({ where: { id }, data });
     }
 
