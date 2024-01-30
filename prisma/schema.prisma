@@ -15,15 +15,19 @@ model User {
   createdAt DateTime? @default(now())
   updatedAt DateTime? @default(now()) @updatedAt()
   tokens    Token[]
+
+  @@map(name: "users")
 }
 
 model Token {
   id        Int       @id @default(autoincrement())
-  userId    Int
+  user_id   Int
   token     String
   createdAt DateTime? @default(now())
   updatedAt DateTime? @default(now()) @updatedAt()
-  user      User      @relation(fields: [userId], references: [id])
+  user      User      @relation(fields: [user_id], references: [id])
+
+  @@map(name: "tokens")
 }
 
 model Author {
@@ -32,13 +36,17 @@ model Author {
   createdAt DateTime? @default(now())
   updatedAt DateTime? @default(now()) @updatedAt()
   quotes    Quote[]
+
+  @@map(name: "authors")
 }
 
 model Quote {
   id        Int       @id @default(autoincrement())
-  authorId  Int
+  author_id Int
   quote     String
   createdAt DateTime? @default(now())
   updatedAt DateTime? @default(now()) @updatedAt()
-  author    Author    @relation(fields: [authorId], references: [id])
+  author    Author    @relation(fields: [author_id], references: [id])
+
+  @@map(name: "quotes")
 }

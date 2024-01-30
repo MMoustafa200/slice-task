@@ -39,7 +39,7 @@ export class TokenRepository {
         });
     }
 
-    async create(data: Pick<Token, 'userId' | 'token'>) {
+    async create(data: Pick<Token, 'user_id' | 'token'>) {
         return await this.model.create({ data });
     }
 
@@ -49,5 +49,9 @@ export class TokenRepository {
 
     async delete(id: number) {
         return await this.model.delete({ where: { id } });
+    }
+
+    async count(filter?: Partial<Token>) {
+        return await this.model.count({ where: filter });
     }
 }

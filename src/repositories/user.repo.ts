@@ -50,4 +50,8 @@ export class UserRepository {
     async delete(id: number) {
         return await this.model.delete({ where: { id } });
     }
+
+    async count(filter?: Partial<User>) {
+        return await this.model.count({ where: filter });
+    }
 }

@@ -43,7 +43,7 @@ export class AuthService {
         await this.passwordManagerService.compare(password, user.password);
 
         const existedToken = await this.tokenRepo.readOne({
-            filter: { userId: user.id },
+            filter: { user_id: user.id },
         });
         if (existedToken) throw new BadRequestError('already logged in');
 
@@ -52,12 +52,14 @@ export class AuthService {
             email: user.email,
             fullname: user.fullname,
         });
-        this.tokenRepo.create({ userId: user.id, token });
+        this.tokenRepo.create({ user_id: user.id, token });
         return token;
     }
 
     async logout(userId: number) {
-        const token = await this.tokenRepo.readOne({ filter: { userId } });
+        const token = await this.tokenRepo.readOne({
+            filter: { user_id: userId },
+        });
         if (!token) throw new BadRequestError('not logged in');
 
         return await this.tokenRepo.delete(token.id);

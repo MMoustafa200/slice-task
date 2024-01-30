@@ -39,7 +39,7 @@ export class QuoteRepository {
         });
     }
 
-    async create(data: Pick<Quote, 'authorId' | 'quote'>) {
+    async create(data: Pick<Quote, 'author_id' | 'quote'>) {
         return await this.model.create({ data });
     }
 
@@ -49,5 +49,15 @@ export class QuoteRepository {
 
     async delete(id: number) {
         return await this.model.delete({ where: { id } });
+    }
+
+    async count(filter?: Partial<Quote>) {
+        return await this.model.count({ where: filter });
+    }
+
+    async getRandomOne(authorId: number) {
+        return (
+            (await prismaClient.$queryRaw`SELECT id, author_id, quote FROM quotes WHERE author_id = ${authorId} ORDER BY random() LIMIT 1`) as Partial<Quote>[]
+        )[0];
     }
 }

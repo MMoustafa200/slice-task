@@ -54,4 +54,10 @@ export class AuthorRepository {
     async count(filter?: Partial<Author>) {
         return await this.model.count({ where: filter });
     }
+
+    async getRandomOne() {
+        return (
+            (await prismaClient.$queryRaw`SELECT id, name FROM authors ORDER BY random() LIMIT 1`) as Partial<Author>[]
+        )[0];
+    }
 }
