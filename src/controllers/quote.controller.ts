@@ -8,7 +8,7 @@ export class QuoteController {
     constructor(private readonly quoteService: QuoteService) {}
 
     async getRandomQuote(
-        req: Request<{}, {}, {}, { authorId: string }>,
+        req: Request<{}, {}, {}, { token: string; authorId: string }>,
         res: Response,
         next: NextFunction,
     ) {

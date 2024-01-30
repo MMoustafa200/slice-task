@@ -13,7 +13,7 @@ export class JWTService {
         return accessToken;
     }
 
-    decodeToken(token: string, secret: string) {
+    decodeToken(token: string) {
         try {
             const decodedToken = jwt.verify(
                 token,
