@@ -12,13 +12,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-require("reflect-metadata");
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const app_1 = require("./app");
+const utils_1 = require("./common/utils");
 const start = () => __awaiter(void 0, void 0, void 0, function* () {
     const PORT = process.env.PORT;
-    app_1.app.listen(PORT, () => {
+    const app = (0, app_1.appBootstrap)(utils_1.prismaClient);
+    app.listen(PORT, () => {
         console.log(`server is up and running on port ${PORT}`);
     });
 });

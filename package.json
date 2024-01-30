@@ -7,7 +7,8 @@
         "start": "npm run build && node dist/index.js",
         "dev": "nodemon src/index.ts",
         "build": "tsc",
-        "seed": "ts-node seed/author.seed.ts && ts-node seed/quote.seed.ts"
+        "seed": "ts-node seed/author.seed.ts && ts-node seed/quote.seed.ts",
+        "test": "mocha src/tests/**/*.ts --require ts-node/register"
     },
     "author": "m.moustafa",
     "license": "ISC",
@@ -29,8 +30,12 @@
         "@types/express": "^4.17.21",
         "@types/joi": "^17.2.3",
         "@types/jsonwebtoken": "^9.0.5",
+        "@types/mocha": "^10.0.6",
+        "@types/supertest": "^6.0.2",
+        "mocha": "^10.2.0",
         "nodemon": "^3.0.3",
         "prisma": "^5.8.1",
+        "supertest": "^6.3.4",
         "ts-node": "^10.9.2",
         "typescript": "^5.3.3"
     }

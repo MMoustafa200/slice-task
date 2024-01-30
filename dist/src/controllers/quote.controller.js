@@ -28,7 +28,8 @@ let QuoteController = class QuoteController {
     getRandomQuote(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const quote = yield this.quoteService.getRandomQuote(Number(req.query.authorId));
+                const { authorId } = req.query;
+                const quote = yield this.quoteService.getRandomQuote(+authorId);
                 res.status(200).json({
                     success: true,
                     data: quote,

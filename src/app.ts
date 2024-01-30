@@ -1,18 +1,27 @@
+import 'reflect-metadata';
 import express from 'express';
 import cors from 'cors';
+import { container } from 'tsyringe';
 
 import { routeCatcher, errorHandler } from './common/middlewares';
 
-import { v1Router } from './routes';
+const appBootstrap = <T>(dbClient: T) => {
+    const app = express();
 
-const app = express();
+    container.register<T>('dbClient', {
+        useValue: dbClient,
+    });
 
-app.use(cors());
-app.use(express.json());
+    app.use(cors());
+    app.use(express.json());
 
-app.use(v1Router);
+    const { v1Router } = require('./routes');
+    app.use(v1Router);
 
-app.all('*', routeCatcher);
-app.use(errorHandler);
+    app.all('*', routeCatcher);
+    app.use(errorHandler);
 
-export { app };
+    return app;
+};
+
+export { appBootstrap };

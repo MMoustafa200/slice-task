@@ -1,14 +1,13 @@
-import { injectable } from 'tsyringe';
-import { prismaClient } from '../common/utils';
+import { inject, injectable } from 'tsyringe';
 
-import { Quote } from '@prisma/client';
+import { PrismaClient, Quote } from '@prisma/client';
 
 @injectable()
 export class QuoteRepository {
     private readonly model;
 
-    constructor() {
-        this.model = prismaClient.quote;
+    constructor(@inject('dbClient') private readonly dbClient: PrismaClient) {
+        this.model = dbClient.quote;
     }
 
     async readAll(options?: {
@@ -57,7 +56,8 @@ export class QuoteRepository {
 
     async getRandomOne(authorId: number) {
         return (
-            (await prismaClient.$queryRaw`SELECT id, author_id, quote FROM quotes WHERE author_id = ${authorId} ORDER BY random() LIMIT 1`) as Partial<Quote>[]
+            (await this.dbClient
+                .$queryRaw`SELECT id, author_id, quote FROM quotes WHERE author_id = ${authorId} ORDER BY random() LIMIT 1`) as Partial<Quote>[]
         )[0];
     }
 }

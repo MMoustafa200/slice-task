@@ -1,14 +1,13 @@
-import { prismaClient } from '../common/utils';
-import { injectable } from 'tsyringe';
+import { inject, injectable } from 'tsyringe';
 
-import { Author } from '@prisma/client';
+import { Author, PrismaClient } from '@prisma/client';
 
 @injectable()
 export class AuthorRepository {
     private readonly model;
 
-    constructor() {
-        this.model = prismaClient.author;
+    constructor(@inject('dbClient') private readonly dbClient: PrismaClient) {
+        this.model = dbClient.author;
     }
 
     async readAll(options?: {
@@ -57,7 +56,8 @@ export class AuthorRepository {
 
     async getRandomOne() {
         return (
-            (await prismaClient.$queryRaw`SELECT id, name FROM authors ORDER BY random() LIMIT 1`) as Partial<Author>[]
+            (await this.dbClient
+                .$queryRaw`SELECT id, name FROM authors ORDER BY random() LIMIT 1`) as Partial<Author>[]
         )[0];
     }
 }

@@ -15,24 +15,27 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const utils_1 = require("../src/common/utils");
+const seedData = [
+    {
+        id: 1,
+        name: 'Walt Disney',
+    },
+    {
+        id: 2,
+        name: 'Mark Twain',
+    },
+    {
+        id: 3,
+        name: 'Albert Einstein',
+    },
+];
 (() => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield utils_1.prismaClient.author.createMany({
-            data: [
-                {
-                    id: 1,
-                    name: 'Walt Disney',
-                },
-                {
-                    id: 2,
-                    name: 'Mark Twain',
-                },
-                {
-                    id: 3,
-                    name: 'Albert Einstein',
-                },
-            ],
-        });
+        yield Promise.all(seedData.map(({ id, name }) => utils_1.prismaClient.author.upsert({
+            where: { id },
+            update: { name },
+            create: { id, name },
+        })));
         console.log('seed authors data done successfully');
     }
     catch (err) {

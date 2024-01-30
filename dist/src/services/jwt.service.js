@@ -14,7 +14,7 @@ class JWTService {
         });
         return accessToken;
     }
-    decodeToken(token, secret) {
+    decodeToken(token) {
         try {
             const decodedToken = jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET);
             return decodedToken;

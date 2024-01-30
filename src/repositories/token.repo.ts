@@ -1,14 +1,13 @@
-import { prismaClient } from '../common/utils';
-import { injectable } from 'tsyringe';
+import { inject, injectable } from 'tsyringe';
 
-import { Token } from '@prisma/client';
+import { PrismaClient, Token } from '@prisma/client';
 
 @injectable()
 export class TokenRepository {
     private readonly model;
 
-    constructor() {
-        this.model = prismaClient.token;
+    constructor(@inject('dbClient') private readonly dbClient: PrismaClient) {
+        this.model = dbClient.token;
     }
 
     async readAll(options?: {
