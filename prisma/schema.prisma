@@ -6,3 +6,39 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id        Int       @id @default(autoincrement())
+  fullname  String
+  email     String    @unique
+  password  String
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @default(now()) @updatedAt()
+  tokens    Token[]
+}
+
+model Token {
+  id        Int       @id @default(autoincrement())
+  userId    Int
+  token     String
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @default(now()) @updatedAt()
+  user      User      @relation(fields: [userId], references: [id])
+}
+
+model Author {
+  id        Int       @id @default(autoincrement())
+  name      String
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @default(now()) @updatedAt()
+  quotes    Quote[]
+}
+
+model Quote {
+  id        Int       @id @default(autoincrement())
+  authorId  Int
+  quote     String
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @default(now()) @updatedAt()
+  author    Author    @relation(fields: [authorId], references: [id])
+}
