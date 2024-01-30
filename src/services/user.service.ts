@@ -7,10 +7,10 @@ export class UserService {
     constructor(private readonly userRepo: UserRepository) {}
 
     async getProfile(id: number) {
-        const profile = await this.userRepo.readOne(
-            { id },
-            { email: true, fullname: true },
-        );
+        const profile = await this.userRepo.readOne({
+            filter: { id },
+            select: { email: true, fullname: true },
+        });
         if (!profile) throw new NotFoundError('no user found');
         return profile;
     }

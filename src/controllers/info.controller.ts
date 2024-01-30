@@ -8,11 +8,15 @@ export class InfoController {
     constructor(private readonly infoService: InfoService) {}
 
     async getInfo(req: Request, res: Response, next: NextFunction) {
-        const info = this.infoService.getCompanyInfo();
+        try {
+            const info = this.infoService.getCompanyInfo();
 
-        res.status(200).json(<ProcessResult>{
-            success: true,
-            data: { info },
-        });
+            res.status(200).json(<ProcessResult>{
+                success: true,
+                data: { info },
+            });
+        } catch (err) {
+            next(err);
+        }
     }
 }

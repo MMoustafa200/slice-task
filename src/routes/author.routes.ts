@@ -5,6 +5,6 @@ import { AuthorController } from '../controllers/author.controller';
 const authorController = container.resolve(AuthorController);
 const router = Router();
 
-router.get('/author', authorController.getRandomAuthor);
+router.get('/author', authorController.getRandomAuthor.bind(authorController));
 
 export const authorRouter = router;

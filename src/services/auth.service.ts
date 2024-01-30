@@ -20,7 +20,9 @@ export class AuthService {
     ) {}
 
     async register(data: Pick<User, 'email' | 'password' | 'fullname'>) {
-        const existedUser = await this.userRepo.readOne({ email: data.email });
+        const existedUser = await this.userRepo.readOne({
+            filter: { email: data.email },
+        });
         if (existedUser) throw new ValidationError('already registered data');
 
         const hashedPassword = await this.passwordManagerService.hash(
@@ -35,12 +37,14 @@ export class AuthService {
     async login(data: Pick<User, 'email' | 'password'>) {
         const { email, password } = data;
 
-        const user = await this.userRepo.readOne({ email });
+        const user = await this.userRepo.readOne({ filter: { email } });
         if (!user) throw new UnauthorizedError('invalid credentials');
 
         await this.passwordManagerService.compare(password, user.password);
 
-        const existedToken = await this.tokenRepo.readOne({ userId: user.id });
+        const existedToken = await this.tokenRepo.readOne({
+            filter: { userId: user.id },
+        });
         if (existedToken) throw new BadRequestError('already logged in');
 
         const token = this.jwtService.generateAccessToken({
@@ -53,7 +57,7 @@ export class AuthService {
     }
 
     async logout(userId: number) {
-        const token = await this.tokenRepo.readOne({ userId });
+        const token = await this.tokenRepo.readOne({ filter: { userId } });
         if (!token) throw new BadRequestError('not logged in');
 
         return await this.tokenRepo.delete(token.id);

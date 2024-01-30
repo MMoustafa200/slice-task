@@ -11,15 +11,32 @@ export class QuoteRepository {
         this.model = prismaClient.quote;
     }
 
-    async readAll() {
-        return await this.model.findMany();
+    async readAll(options?: {
+        filter?: Partial<Quote>;
+        select?: Partial<Record<keyof Quote, boolean>>;
+        skip?: number;
+        take?: number;
+    }) {
+        return await this.model.findMany({
+            where: options?.filter,
+            select: options?.select,
+            skip: options?.skip,
+            take: options?.take,
+        });
     }
 
-    async readOne(
-        filter: Partial<Quote>,
-        select?: Partial<Record<keyof Quote, boolean>>,
-    ) {
-        return await this.model.findFirst({ where: filter, select });
+    async readOne(options?: {
+        filter?: Partial<Quote>;
+        select?: Partial<Record<keyof Quote, boolean>>;
+        skip?: number;
+        take?: number;
+    }) {
+        return await this.model.findFirst({
+            where: options?.filter,
+            select: options?.select,
+            skip: options?.skip,
+            take: options?.take,
+        });
     }
 
     async create(data: Pick<Quote, 'authorId' | 'quote'>) {

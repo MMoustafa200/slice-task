@@ -13,12 +13,16 @@ export class AuthController {
         res: Response,
         next: NextFunction,
     ) {
-        await this.authService.register(req.body);
+        try {
+            await this.authService.register(req.body);
 
-        res.status(201).json(<ProcessResult>{
-            success: true,
-            data: {},
-        });
+            res.status(201).json(<ProcessResult>{
+                success: true,
+                data: {},
+            });
+        } catch (err) {
+            next(err);
+        }
     }
 
     async login(
@@ -26,20 +30,28 @@ export class AuthController {
         res: Response,
         next: NextFunction,
     ) {
-        const token = await this.authService.login(req.body);
+        try {
+            const token = await this.authService.login(req.body);
 
-        res.status(200).json(<ProcessResult>{
-            success: true,
-            data: { token },
-        });
+            res.status(200).json(<ProcessResult>{
+                success: true,
+                data: { token },
+            });
+        } catch (err) {
+            next(err);
+        }
     }
 
     async logout(req: Request, res: Response, next: NextFunction) {
-        await this.authService.logout(req.user.id);
+        try {
+            await this.authService.logout(req.user.id);
 
-        res.status(200).json(<ProcessResult>{
-            success: true,
-            data: {},
-        });
+            res.status(200).json(<ProcessResult>{
+                success: true,
+                data: {},
+            });
+        } catch (err) {
+            next(err);
+        }
     }
 }

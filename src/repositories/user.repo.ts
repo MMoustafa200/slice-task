@@ -11,17 +11,31 @@ export class UserRepository {
         this.model = prismaClient.user;
     }
 
-    async readAll() {
-        return await this.model.findMany();
+    async readAll(options?: {
+        filter?: Partial<User>;
+        select?: Partial<Record<keyof User, boolean>>;
+        skip?: number;
+        take?: number;
+    }) {
+        return await this.model.findMany({
+            where: options?.filter,
+            select: options?.select,
+            skip: options?.skip,
+            take: options?.take,
+        });
     }
 
-    async readOne(
-        filter: Partial<User>,
-        select?: Partial<Record<keyof User, boolean>>,
-    ) {
+    async readOne(options?: {
+        filter?: Partial<User>;
+        select?: Partial<Record<keyof User, boolean>>;
+        skip?: number;
+        take?: number;
+    }) {
         return await this.model.findFirst({
-            where: filter,
-            select,
+            where: options?.filter,
+            select: options?.select,
+            skip: options?.skip,
+            take: options?.take,
         });
     }
 

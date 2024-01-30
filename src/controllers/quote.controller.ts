@@ -6,5 +6,10 @@ import { NextFunction, Request, Response } from 'express';
 export class QuoteController {
     constructor(private readonly quoteService: QuoteService) {}
 
-    async getRandomQuote(req: Request, res: Response, next: NextFunction) {}
+    async getRandomQuote(req: Request, res: Response, next: NextFunction) {
+        try {
+        } catch (err) {
+            next(err);
+        }
+    }
 }

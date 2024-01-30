@@ -11,15 +11,32 @@ export class AuthorRepository {
         this.model = prismaClient.author;
     }
 
-    async readAll() {
-        return await this.model.findMany();
+    async readAll(options?: {
+        filter?: Partial<Author>;
+        select?: Partial<Record<keyof Author, boolean>>;
+        skip?: number;
+        take?: number;
+    }) {
+        return await this.model.findMany({
+            where: options?.filter,
+            select: options?.select,
+            skip: options?.skip,
+            take: options?.take,
+        });
     }
 
-    async readOne(
-        filter: Partial<Author>,
-        select?: Partial<Record<keyof Author, boolean>>,
-    ) {
-        return await this.model.findFirst({ where: filter, select });
+    async readOne(options?: {
+        filter?: Partial<Author>;
+        select?: Partial<Record<keyof Author, boolean>>;
+        skip?: number;
+        take?: number;
+    }) {
+        return await this.model.findFirst({
+            where: options?.filter,
+            select: options?.select,
+            skip: options?.skip,
+            take: options?.take,
+        });
     }
 
     async create(data: Pick<Author, 'name'>) {
@@ -32,5 +49,9 @@ export class AuthorRepository {
 
     async delete(id: number) {
         return await this.model.delete({ where: { id } });
+    }
+
+    async count(filter?: Partial<Author>) {
+        return await this.model.count({ where: filter });
     }
 }

@@ -6,7 +6,8 @@
     "scripts": {
         "start": "npm run build && node dist/index.js",
         "dev": "nodemon src/index.ts",
-        "build": "tsc"
+        "build": "tsc",
+        "seed": "ts-node seed/author.seed.ts && ts-node seed/quote.seed.ts"
     },
     "author": "m.moustafa",
     "license": "ISC",

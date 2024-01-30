@@ -5,6 +5,6 @@ import { UserController } from '../controllers/user.controller';
 const userController = container.resolve(UserController);
 const router = Router();
 
-router.get('/profile', userController.getProfile);
+router.get('/profile', userController.getProfile.bind(userController));
 
 export const userRouter = router;

@@ -8,11 +8,15 @@ export class UserController {
     constructor(private readonly userService: UserService) {}
 
     async getProfile(req: Request, res: Response, next: NextFunction) {
-        const profile = await this.userService.getProfile(req.user.id);
+        try {
+            const profile = await this.userService.getProfile(req.user.id);
 
-        res.status(200).json(<ProcessResult>{
-            success: true,
-            data: profile,
-        });
+            res.status(200).json(<ProcessResult>{
+                success: true,
+                data: profile,
+            });
+        } catch (err) {
+            next(err);
+        }
     }
 }

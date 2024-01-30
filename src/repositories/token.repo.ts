@@ -11,15 +11,32 @@ export class TokenRepository {
         this.model = prismaClient.token;
     }
 
-    async readAll() {
-        return await this.model.findMany();
+    async readAll(options?: {
+        filter?: Partial<Token>;
+        select?: Partial<Record<keyof Token, boolean>>;
+        skip?: number;
+        take?: number;
+    }) {
+        return await this.model.findMany({
+            where: options?.filter,
+            select: options?.select,
+            skip: options?.skip,
+            take: options?.take,
+        });
     }
 
-    async readOne(
-        filter: Partial<Token>,
-        select?: Partial<Record<keyof Token, boolean>>,
-    ) {
-        return await this.model.findFirst({ where: filter, select });
+    async readOne(options?: {
+        filter?: Partial<Token>;
+        select?: Partial<Record<keyof Token, boolean>>;
+        skip?: number;
+        take?: number;
+    }) {
+        return await this.model.findFirst({
+            where: options?.filter,
+            select: options?.select,
+            skip: options?.skip,
+            take: options?.take,
+        });
     }
 
     async create(data: Pick<Token, 'userId' | 'token'>) {
